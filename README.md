@@ -1,7 +1,7 @@
 # worker-rpc
 worker 节点远程执行作业脚本
 
-#作业配置格式
+# 作业配置格式
 ```
 version: v1.0
 name: yangtze
