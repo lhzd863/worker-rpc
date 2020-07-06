@@ -24,6 +24,11 @@ attr:
 
 ```
 
+# 启动worker
+```
+go run main.go --run="worker" --conf=worker-conf.yaml
+```
+
 # 查看作业状态
 ```
 go run main.go --run="status" --conf=job-conf.yaml --ctl="XXDQC.XXDQC_OSUB_A01_ANALYSIS_REPORT_INVIEW.20200703.000000"
