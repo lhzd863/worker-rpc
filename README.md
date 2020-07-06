@@ -51,4 +51,13 @@ CTX_JOB=XXDQC_OSUB_A01_ANALYSIS_REPORT_INVIEW
 CTX_STR=2020-07-03 00:00:00
 ```
 
-# 
+# LOG路径格式
+```
+└── LOG
+    └── 20200703
+        └── 000000
+            └── XXDQC
+                ├── xxdqc_osub_a01_analysis_report_inview_0_0_20200706141444.log
+                ├── xxdqc_osub_a01_analysis_report_inview_0_1_20200706141516.log
+                └── XXDQC_OSUB_A01_ANALYSIS_REPORT_INVIEW_20200703000000.log
+```
