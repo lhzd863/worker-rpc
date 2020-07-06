@@ -11,7 +11,7 @@ attr:
     parameter:
       - "{\"k\":\"cal_date\",\"v\":\"20200703\"}"
       - "{\"k\":\"cal_date1d\",\"v\":\"20200702\"}"
-    timeout: 3600
+    timeout: 0
     retry: 2
     ip: "192.168.1.189"
     port: "12525"

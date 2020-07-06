@@ -113,6 +113,7 @@ func (ws *WorkerServer) executeJob(job *module.MetaParaJobWorkerBean) (string, e
 	m.Parameter = job.Parameter
 	m.Retry = job.Retry
 	m.Context = job.Context
+        m.Timeout = job.Timeout
 
 	jobpool.Store(m.Id, m)
 	defer jobpool.Delete(m.Id)
@@ -234,17 +235,28 @@ func (ws *WorkerServer) executeJob(job *module.MetaParaJobWorkerBean) (string, e
 }
 
 func (ws *WorkerServer) executeCmd(id string, c string, logf string) (string, error) {
-        util.Glog(logf, fmt.Sprintf("%v", id))
-        util.Glog(logf, fmt.Sprintf("%v", c))
+	util.Glog(logf, fmt.Sprintf("%v", id))
+	util.Glog(logf, fmt.Sprintf("%v", c))
 
-        t, ok := jobpool.Load(id)
-        if !ok {
-                util.Glog(logf, fmt.Sprintf("id(%v) spool job not exists.", id))
-                return "1", fmt.Errorf(fmt.Sprintf("id(%v) spool job not exists.", id))
-        }
-        j := t.(*module.MetaJobWorkerBean)
+	t, ok := jobpool.Load(id)
+	if !ok {
+		util.Glog(logf, fmt.Sprintf("id(%v) spool job not exists.", id))
+		return "1", fmt.Errorf(fmt.Sprintf("id(%v) spool job not exists.", id))
+	}
+	j := t.(*module.MetaJobWorkerBean)
 
-	cmd := exec.Command("/bin/bash", "-c", c)
+	//cmd := exec.Command("/bin/bash", "-c", c)
+	//ctx, cancel := context.WithCancel(context.Background())
+	var cmd *exec.Cmd
+	if j.Timeout > 0 {
+                util.Glog(logf, fmt.Sprintf("%v.%v set timeout %v.", j.Sys,j.Job,j.Timeout))
+		ctx, cancel := context.WithTimeout(context.Background(), time.Duration(j.Timeout)*time.Second)
+		defer cancel()
+		cmdarray := []string{"-c", c}
+		cmd = exec.CommandContext(ctx, "/bin/bash", cmdarray...)
+	} else {
+		cmd = exec.Command("/bin/bash", "-c", c)
+	}
 	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
 
 	j.Command = cmd
@@ -310,9 +322,9 @@ func (ws *WorkerServer) JobStop(ctx context.Context, in *gproto.Req) (*gproto.Re
 		if k == p.Id {
 			//j.Command.Process.Kill()
 			flag = 1
-			log.Printf("stop %v.%v pid.", j.Sys, j.Job, j.Command.Process.Pid)
+			util.Glog(LogF, fmt.Sprintf("stop %v.%v pid(%v).", j.Sys, j.Job, j.Command.Process.Pid))
 			syscall.Kill(-j.Command.Process.Pid, syscall.SIGKILL)
-                        jobpool.Delete(p.Id)
+			jobpool.Delete(p.Id)
 			return false
 		}
 		return true
@@ -327,6 +339,7 @@ func (ws *WorkerServer) JobStatus(ctx context.Context, in *gproto.Req) (*gproto.
 	p := new(module.MetaJobWorkerBean)
 	err := json.Unmarshal([]byte(in.JsonStr), &p)
 	if err != nil {
+		util.Glog(LogF, fmt.Sprint(err))
 		return &gproto.Res{Status_Txt: fmt.Sprint(err), Status_Code: 1, Data: "{}"}, nil
 	}
 	var jsonstr []byte
@@ -334,6 +347,7 @@ func (ws *WorkerServer) JobStatus(ctx context.Context, in *gproto.Req) (*gproto.
 	jobpool.Range(func(k, v interface{}) bool {
 		j := v.(*module.MetaJobWorkerBean)
 		if j.Sys == p.Sys && j.Job == p.Job {
+			util.Glog(LogF, fmt.Sprintf("status %v.%v.", j.Sys, j.Job))
 			jsonstr, _ = json.Marshal(j)
 			retlst = append(retlst, string(jsonstr))
 		}

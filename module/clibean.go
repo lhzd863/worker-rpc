@@ -20,7 +20,7 @@ type MetaJobAttrConf struct {
 	Context   string        `yaml:"context"`
 	Cmd       []interface{} `yaml:"cmd"`
 	Parameter []interface{} `yaml:"parameter"`
-	TimeOut   int64         `yaml:"timeout"`
+	Timeout   int64         `yaml:"timeout"`
 	Retry     int8          `yaml:"retry"`
 	Ip        string        `yaml:"ip"`
 	Port      string        `yaml:"port"`

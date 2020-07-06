@@ -168,7 +168,7 @@ func (c *Cli) ParseJobYaml() (*module.MetaJobWorkerBean, error) {
 		m.Context = ctx
 		m.Cmd = a.Cmd
 		m.Parameter = a.Parameter
-		m.TimeOut = a.TimeOut
+		m.Timeout = a.Timeout
 		m.Retry = a.Retry
 		m.Ip = a.Ip
 		m.Port = a.Port

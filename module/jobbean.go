@@ -12,7 +12,7 @@ type MetaParaJobWorkerBean struct {
 	Context   string        `json:"context"`
 	Cmd       []interface{} `json:"cmd"`
 	Parameter []interface{} `json:"parameter"`
-	TimeOut   int64         `json:"timeout"`
+	Timeout   int64         `json:"timeout"`
 	Retry     int8          `json:"retry"`
 }
 
@@ -26,7 +26,7 @@ type MetaJobWorkerBean struct {
 	Context    string        `json:"context"`
 	Cmd        []interface{} `json:"cmd"`
 	Parameter  []interface{} `json:"parameter"`
-	TimeOut    int64         `json:"timeout"`
+	Timeout    int64         `json:"timeout"`
 	Retry      int8          `json:"retry"`
 	StartTime  string        `json:"starttime"`
 	EndTime    string        `json:"endtime"`
