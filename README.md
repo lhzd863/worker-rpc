@@ -59,5 +59,5 @@ LOG                                                                          #LO
         └── XXDQC                                                            #系统名
             ├── xxdqc_osub_a01_analysis_report_inview_0_0_20200706141444.log #脚本LOG内容#作业名(小写)_脚本序列_执行次数_时间戳.log
             ├── xxdqc_osub_a01_analysis_report_inview_0_1_20200706141516.log       
-            └── XXDQC_OSUB_A01_ANALYSIS_REPORT_INVIEW_20200703000000.log     #作业名(大写)_批量时间戳.log
+            └── XXDQC_OSUB_A01_ANALYSIS_REPORT_INVIEW_20200703000000.log     #作业执行log#作业名(大写)_批量时间戳.log
 ```
