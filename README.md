@@ -36,6 +36,7 @@ go run main.go --run="status" --conf=job-conf.yaml --ctl="XXDQC.XXDQC_OSUB_A01_A
 
 # 停止作业运行
 ```
-go run main.go --run="stop" --conf=job-conf.yaml --ctl="XXDQC.XXDQC_OSUB_A01_ANALYSIS_REPORT_INVIEW.20200703.000000" --jobid="3f9e8625-8042-4a9a-b01f-832cc63c6924"
+go run main.go --run="stop" --conf=job-conf.yaml --ctl="XXDQC.XXDQC_OSUB_A01_ANALYSIS_REPORT_INVIEW.20200703.000000" \
+--jobid="3f9e8625-8042-4a9a-b01f-832cc63c6924"
 ```
 
