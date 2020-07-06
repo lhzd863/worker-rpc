@@ -1,0 +1,3 @@
+version: v1
+name: worker-0
+jobconf: job-conf.yaml
